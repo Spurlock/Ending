@@ -4,7 +4,7 @@ $plugin_info = array(
   'pi_name' => 'Ending',
   'pi_version' =>'1.0',
   'pi_author' =>'Mark Spurlock',
-  'pi_author_url' => 'http://www.squidrock.com/',
+  'pi_author_url' => 'https://github.com/Spurlock',
   'pi_description' => 'A character limiter for giving you just the LAST part of a string',
   'pi_usage' => Ending::usage()
   );
@@ -16,6 +16,8 @@ class Ending
 	
 	function ending()
 	{
+		
+		//make the parameters easy to access
 		$this->EE =& get_instance();
 		$limit = $this->EE->TMPL->fetch_param('limit');
 		$until = $this->EE->TMPL->fetch_param('until');
@@ -24,19 +26,21 @@ class Ending
 	
 		$str = $this->EE->TMPL->tagdata;
 		
-		if($until)
+		if($until) //using "until" param
 		{
+			//find position of needle
 			if($matchcase=="yes")
 				$pos = strripos($str,$until);
 			else
 				$pos = strrpos($str,$until);
-				
+			
+			//if not including needle, offset by length of needle
 			if($include!="yes") 
 				$pos+=strlen($until);
 				
 			$str = substr($str,$pos);
 		}
-		if($limit)
+		if($limit) //using "limit" param
 		{
 			$l = strlen($str);
 			$str = substr($str, $l - $limit);
